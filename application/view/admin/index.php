@@ -28,7 +28,7 @@
             </thead>
 
             <?php foreach ($this->users as $user) { ?>
-                <form action="<?= Config::get("URL"); ?>admin/actionAccountSettings" method="post">
+                <form action="<?= Config::get("URL"); ?>admin/updateUserGroup" method="post">
                     <tr class="<?= ($user->user_active == 0 ? 'inactive' : 'active'); ?>">
 
                         <td><?= $user->user_id; ?></td>
