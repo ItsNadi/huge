@@ -370,4 +370,6 @@ class UserModel
             ':user_id' => $user_id
         ]);
     }
+
+
 }
