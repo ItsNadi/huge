@@ -340,4 +340,34 @@ class UserModel
         // return one row (we only have one result or nothing)
         return $query->fetch();
     }
+
+    public static function getUsersWithGroups()
+    {
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $sql = "
+    SELECT user_id, user_name, user_email, user_active, user_deleted,
+           user_group_id, groups.name AS group_name
+    FROM users
+    JOIN groups ON users.user_group_id = groups.id
+    ";
+
+        $query = $database->prepare($sql);
+        $query->execute();
+
+        return $query->fetchAll();
+    }
+
+    public static function updateUserGroup($user_id, $group_id)
+    {
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $sql = "UPDATE users SET user_group_id = :group_id WHERE user_id = :user_id";
+        $query = $database->prepare($sql);
+
+        $query->execute([
+            ':group_id' => $group_id,
+            ':user_id' => $user_id
+        ]);
+    }
 }
