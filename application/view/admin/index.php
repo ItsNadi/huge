@@ -9,6 +9,9 @@
             This controller/action/view shows a list of all users in the system. with the ability to soft delete a user
             or suspend a user.
         </div>
+        <a href="<?= Config::get('URL'); ?>profile/listUsersWithGroups">
+            <button type="button">User & Group Übersicht</button>
+        </a>
 
         <table class="overview-table">
             <thead>
