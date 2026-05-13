@@ -36,4 +36,10 @@ class ProfileController extends Controller
             Redirect::home();
         }
     }
+    public function listUsersWithGroups()
+    {
+        $this->View->render('profile/userGroupList', [
+            'users' => UserModel::getUsersWithGroups()
+        ]);
+    }
 }
