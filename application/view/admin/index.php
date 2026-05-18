@@ -2,6 +2,10 @@
     <h1>Admin/index</h1>
 
     <div class="box">
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/jquery.dataTables.min.css">
+
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+        <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
 
         <?php $this->renderFeedbackMessages(); ?>
 
@@ -13,7 +17,7 @@
             <button type="button">User & Group Übersicht</button>
         </a>
 
-        <table class="overview-table">
+        <table id="userTable" class="overview-table">
             <thead>
             <tr>
                 <td>Id</td>
@@ -84,3 +88,8 @@
 
     </div>
 </div>
+<script>
+    $(document).ready(function () {
+        $('#userTable').DataTable();
+    });
+</script>
