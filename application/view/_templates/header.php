@@ -8,7 +8,18 @@
 </head>
 
 <body>
+<?php
+$unreadCount = 0;
+
+if (Session::userIsLoggedIn()) {
+    $unreadCount = MessageModel::getUnreadCount(Session::get('user_id'));
+}
+?>
 <div class="wrapper">
+    <?php
+    $unreadCount = MessageModel::getUnreadCount(Session::get('user_id'));
+    var_dump($unreadCount);
+    ?>
 
     <!-- logo -->
     <div class="logo"></div>
@@ -28,6 +39,18 @@
 
             <li <?php if (View::checkForActiveController($filename, "dashboard")) { echo ' class="active" '; } ?>>
                 <a href="<?php echo Config::get('URL'); ?>dashboard/index">Dashboard</a>
+            </li>
+
+            <li>
+                <a href="<?= Config::get('URL'); ?>message/index">
+                    Messages
+
+                    <?php if ($unreadCount > 0) { ?>
+                        <span style="background:red;color:white;border-radius:50%;padding:2px 6px;font-size:12px;">
+                <?= $unreadCount ?>
+            </span>
+                    <?php } ?>
+                </a>
             </li>
 
             <li <?php if (View::checkForActiveController($filename, "note")) { echo ' class="active" '; } ?>>
