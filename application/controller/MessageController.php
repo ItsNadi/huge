@@ -18,11 +18,13 @@ class MessageController extends Controller
         Redirect::to('message/index');
     }
 
-    public function index()
+    public function index($user_id = null)
     {
         $this->View->render('message/index', [
-            'messages' => MessageModel::getMessages(Session::get('user_id')),
-            'unreadCount' => MessageModel::getUnreadCount(Session::get('user_id'))
+            'users' => MessageModel::getAllUsers(),
+            'messages' => $user_id
+                ? MessageModel::getConversation(Session::get('user_id'), $user_id)
+                : []
         ]);
     }
 
@@ -34,5 +36,24 @@ class MessageController extends Controller
                 $user_id
             )
         ]);
+    }
+
+    public function group($group_id)
+    {
+        $this->View->render('message/group', [
+            'messages' => MessageModel::getGroupMessages($group_id),
+            'group_id' => $group_id
+        ]);
+    }
+
+    public function sendGroup($group_id, $message)
+    {
+        MessageModel::sendGroupMessage(
+            $group_id,
+            Session::get('user_id'),
+            $message
+        );
+
+        Redirect::to('message/group/' . $group_id);
     }
 }

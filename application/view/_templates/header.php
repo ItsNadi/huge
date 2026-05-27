@@ -53,6 +53,10 @@ if (Session::userIsLoggedIn()) {
                 </a>
             </li>
 
+            <li <?php if (View::checkForActiveControllerAndAction($filename, "message/group")) { echo ' class="active" '; } ?>>
+                <a href="<?php echo Config::get('URL'); ?>message/group/1">Group Chat</a>
+            </li>
+
             <li <?php if (View::checkForActiveController($filename, "note")) { echo ' class="active" '; } ?>>
                 <a href="<?php echo Config::get('URL'); ?>note/index">My Notes</a>
             </li>

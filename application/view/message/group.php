@@ -1,5 +1,6 @@
 <div class="container">
-    <h1 style="color:red;">Chat</h1>
+
+    <h1>Group Chat</h1>
 
     <section class="discussion">
 
@@ -14,6 +15,7 @@
             <?php } else { ?>
 
                 <div class="bubble recipient">
+                    <b><?= htmlspecialchars($msg->user_name); ?>:</b>
                     <?= htmlspecialchars($msg->message); ?>
                 </div>
 
@@ -22,4 +24,5 @@
         <?php } ?>
 
     </section>
+
 </div>
