@@ -6,9 +6,7 @@ class MessageModel
     {
         $database = DatabaseFactory::getFactory()->getConnection();
 
-        $sql = "INSERT INTO messages (sender_id, receiver_id, message)
-                VALUES (:sender_id, :receiver_id, :message)";
-
+        $sql = "CALL sp_send_message(:sender_id, :receiver_id, :message)";
         $query = $database->prepare($sql);
         $query->execute([
             ':sender_id' => $sender_id,
@@ -21,24 +19,22 @@ class MessageModel
     {
         $database = DatabaseFactory::getFactory()->getConnection();
 
-        $sql = "SELECT * FROM messages
-            WHERE sender_id = :user_id OR receiver_id = :user_id
-            ORDER BY id DESC";
+        $sql = "CALL sp_get_messages(:user_id)";
 
         $query = $database->prepare($sql);
-        $query->execute([':user_id' => $user_id]);
+
+        $query->execute([
+            ':user_id' => $user_id
+        ]);
 
         return $query->fetchAll();
     }
 
     public static function getUnreadCount($user_id)
-    {
+{
         $database = DatabaseFactory::getFactory()->getConnection();
 
-        $sql = "SELECT COUNT(*) AS cnt
-            FROM messages
-            WHERE receiver_id = :user_id
-            AND is_read = 0";
+        $sql = "CALL sp_get_unread_count(:user_id)";
 
         $query = $database->prepare($sql);
         $query->execute([
@@ -51,10 +47,7 @@ class MessageModel
     {
         $database = DatabaseFactory::getFactory()->getConnection();
 
-        $sql = "SELECT * FROM messages
-            WHERE (sender_id = :user1 AND receiver_id = :user2)
-               OR (sender_id = :user2 AND receiver_id = :user1)
-            ORDER BY id ASC";
+        $sql = "CALL sp_get_conversation(:user1, :user2)";
 
         $query = $database->prepare($sql);
 
@@ -79,12 +72,11 @@ class MessageModel
         return $query->fetchAll();
     }
 
-    public static function sendGroupMessage($group_id, $sender_id, $message)
+        public static function sendGroupMessage($group_id, $sender_id, $message)
     {
         $database = DatabaseFactory::getFactory()->getConnection();
 
-        $sql = "INSERT INTO group_messages (group_id, sender_id, message)
-            VALUES (:group_id, :sender_id, :message)";
+        $sql = "CALL sp_send_group_message(:group_id, :sender_id, :message)";
 
         $query = $database->prepare($sql);
 
@@ -95,15 +87,11 @@ class MessageModel
         ]);
     }
 
-    public static function getGroupMessages($group_id)
+        public static function getGroupMessages($group_id)
     {
         $database = DatabaseFactory::getFactory()->getConnection();
 
-        $sql = "SELECT group_messages.*, users.user_name
-            FROM group_messages
-            JOIN users ON group_messages.sender_id = users.user_id
-            WHERE group_messages.group_id = :group_id
-            ORDER BY group_messages.id ASC";
+        $sql = "CALL sp_get_group_messages(:group_id)";
 
         $query = $database->prepare($sql);
 
@@ -112,5 +100,5 @@ class MessageModel
         ]);
 
         return $query->fetchAll();
-    }
+    }  
 }
