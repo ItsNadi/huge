@@ -60,6 +60,9 @@ if (Session::userIsLoggedIn()) {
             <li <?php if (View::checkForActiveController($filename, "note")) { echo ' class="active" '; } ?>>
                 <a href="<?php echo Config::get('URL'); ?>note/index">My Notes</a>
             </li>
+            <li <?php if (View::checkForActiveController($filename, "gallery")) { echo ' class="active" '; } ?>>
+                <a href="<?php echo Config::get('URL'); ?>gallery/index">Gallery</a>
+            </li>
 
             <!--nur admin kann user erstellen -->
             <?php if (Session::get("user_account_type") == 7) : ?>
