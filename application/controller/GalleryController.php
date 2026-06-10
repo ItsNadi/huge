@@ -110,4 +110,15 @@ class GalleryController extends Controller
         readfile($file);
         exit;
     }
+    public function view($picture_id)
+    {
+        $picture = GalleryModel::getPictureById(
+            $picture_id,
+            Session::get('user_id')
+        );
+
+        $this->View->render('gallery/view', [
+            'picture' => $picture
+        ]);
+    }
 }

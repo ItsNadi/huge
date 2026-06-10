@@ -19,7 +19,9 @@
 
                 <div class="gallery-card">
 
+                    <a href="<?= Config::get('URL'); ?>gallery/view/<?= $picture->id; ?>">
                     <img src="<?= Config::get('URL'); ?>gallery/show/<?= $picture->id; ?>" alt="picture">
+                    </a>
 
                     <p><?= htmlspecialchars($picture->filename); ?></p>
 

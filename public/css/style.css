@@ -292,3 +292,64 @@ body {
     align-self: flex-end;
     background-color: #efefef;
 }
+
+.gallery-upload {
+    margin-bottom: 20px;
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 20px;
+}
+
+.gallery-card {
+    border: 1px solid #ccc;
+    padding: 12px;
+    background: #fff;
+    text-align: center;
+}
+
+.gallery-card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border: 1px solid #ddd;
+}
+
+.gallery-card p {
+    font-size: 13px;
+    word-break: break-word;
+}
+
+.gallery-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.gallery-actions a {
+    background: #333;
+    color: white;
+    padding: 6px;
+    text-decoration: none;
+    font-size: 13px;
+}
+
+.gallery-actions a:hover {
+    background: #555;
+}
+
+.gallery-actions .delete {
+    background: #a83232;
+}
+
+.gallery-actions .delete:hover {
+    background: #c0392b;
+}
+.full-image {
+    max-width: 100%;
+    max-height: 90vh;
+    display: block;
+    margin: auto;
+}

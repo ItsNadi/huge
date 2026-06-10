@@ -38,12 +38,24 @@ class NoteModel
         // fetch() is the PDO method that gets a single result
         return $query->fetch();
     }
+    
+    // MySQLi Variante von getNote()
+/*public static function getNoteMysqli($note_id)
+{
+    $database = new mysqli("localhost", "root", "", "huge");
 
-    /**
-     * Set a note (create a new one)
-     * @param string $note_text note text that will be created
-     * @return bool feedback (was the note created properly ?)
-     */
+    $sql = "SELECT * FROM notes WHERE note_id = ?";
+
+    $query = $database->prepare($sql);
+
+    $query->bind_param("i", $note_id);
+
+    $query->execute();
+
+    return $query->get_result()->fetch_assoc();
+}
+*/
+ 
     public static function createNote($note_text)
     {
         if (!$note_text || strlen($note_text) == 0) {
