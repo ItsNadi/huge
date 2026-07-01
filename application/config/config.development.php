@@ -73,6 +73,20 @@ return array(
      * The currently used Captcha generator (https://github.com/Gregwar/Captcha) also runs without giving a size,
      * so feel free to use ->build(); inside CaptchaModel.
      */
+    
+    'DB_TYPE' => 'mysql',
+'DB_HOST' => '127.0.0.1',
+'DB_NAME' => 'huge',
+'DB_USER' => 'root',
+'DB_PASS' => '',
+'DB_PORT' => '3306',
+'DB_CHARSET' => 'utf8',
+
+'RECAPTCHA_SITE_KEY' => '6Lde_z4tAAAAADQya7E_U74G-8g6nwSQVfzFSlN3',
+'RECAPTCHA_SECRET_KEY' => '6Lde_z4tAAAAANLbAKDaV-GB1z7E3zYixsTLfuFw',
+
+'CAPTCHA_WIDTH' => 359,
+'CAPTCHA_HEIGHT' => 100,
     'CAPTCHA_WIDTH' => 359,
     'CAPTCHA_HEIGHT' => 100,
     /**

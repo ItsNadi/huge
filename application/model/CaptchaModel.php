@@ -3,44 +3,49 @@
 /**
  * Class CaptchaModel
  *
- * This model class handles all the captcha stuff.
- * Currently this uses the excellent Captcha generator lib from https://github.com/Gregwar/Captcha
- * Have a look there for more options etc.
+ * This model class handles the Google reCAPTCHA check.
  */
 class CaptchaModel
 {
     /**
-     * Generates the captcha, "returns" a real image, this is why there is header('Content-type: image/jpeg')
-     * Note: This is a very special method, as this is echoes out binary data.
-     */
-    public static function generateAndShowCaptcha()
-    {
-        // create a captcha with the CaptchaBuilder lib (loaded via Composer)
-        $captcha = new Gregwar\Captcha\CaptchaBuilder;
-        $captcha->build(
-            Config::get('CAPTCHA_WIDTH'),
-            Config::get('CAPTCHA_HEIGHT')
-        );
-
-        // write the captcha character into session
-        Session::set('captcha', $captcha->getPhrase());
-
-        // render an image showing the characters (=the captcha)
-        header('Content-type: image/jpeg');
-        $captcha->output();
-    }
-
-    /**
-     * Checks if the entered captcha is the same like the one from the rendered image which has been saved in session
-     * @param $captcha string The captcha characters
+     * Checks Google reCAPTCHA response.
+     *
      * @return bool success of captcha check
      */
-    public static function checkCaptcha($captcha)
+    public static function checkCaptcha()
     {
-        if (Session::get('captcha') && ($captcha == Session::get('captcha'))) {
-            return true;
+        if (empty($_POST['g-recaptcha-response'])) {
+            return false;
         }
 
-        return false;
+        $secretKey = Config::get('RECAPTCHA_SECRET_KEY');
+        $captchaResponse = $_POST['g-recaptcha-response'];
+
+        $verifyUrl = 'https://www.google.com/recaptcha/api/siteverify';
+
+        $data = array(
+            'secret' => $secretKey,
+            'response' => $captchaResponse,
+            'remoteip' => $_SERVER['REMOTE_ADDR']
+        );
+
+        $options = array(
+            'http' => array(
+                'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+                'method'  => 'POST',
+                'content' => http_build_query($data)
+            )
+        );
+
+        $context = stream_context_create($options);
+        $result = file_get_contents($verifyUrl, false, $context);
+
+        if ($result === false) {
+            return false;
+        }
+
+        $resultData = json_decode($result);
+
+        return isset($resultData->success) && $resultData->success === true;
     }
 }

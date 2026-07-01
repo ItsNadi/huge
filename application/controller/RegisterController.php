@@ -30,6 +30,12 @@ class RegisterController extends Controller
             return;
         }
 
+        if (!CaptchaModel::checkCaptcha()) {
+            Session::add('feedback_negative', 'Please confirm that you are not a robot.');
+            Redirect::to('register/index');
+            return;
+        }
+
         $registration_successful = RegistrationModel::registerNewUser();
 
         if ($registration_successful) {
